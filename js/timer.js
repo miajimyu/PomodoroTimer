@@ -27,7 +27,7 @@
         s = ('0' + s).slice(-2);
         timerString = m + ':' + s;
         timer.textContent = timerString;
-        // document.title = timerString;
+        document.title = GetWorkBreakString();
     }
 
     function countDown() {
@@ -55,6 +55,15 @@
             return workTime;
         }
     }
+
+    function GetWorkBreakString() {
+        if (timeToCountDown === workTime) {
+            return 'Work';
+        } else {
+            return 'Break';
+        }
+    }
+
     window.onload = function () {
         // ページ読み込み時に実行したい処理
         updateTimer(timeToCountDown);

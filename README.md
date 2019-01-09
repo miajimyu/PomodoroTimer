@@ -1,4 +1,3 @@
-# CountdownTimer
-CountdownTimer https://dotinstall.com/lessons/countdown_js
+# pomodoro timer
 
 ![App](image/app.png)

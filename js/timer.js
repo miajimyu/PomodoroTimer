@@ -9,9 +9,12 @@
     var startTime;
     var timeLeft;
 
+    const workState = 'Work';
     const workTime = 25 * 60 * 1000;
+    const breakState = 'Break';
     const breakTime = 5 * 60 * 1000;
 
+    var timeState = workState;
     var timeToCountDown = workTime;
     var timerId;
     var isRunning = false;
@@ -39,7 +42,7 @@
 
                 clearTimeout(timerId);
                 timeLeft = 0;
-                timeToCountDown = changeTime(timeToCountDown);
+                SetTimeToCountdown(changeTime(timeToCountDown));
                 updateTimer(timeToCountDown);
                 return;
             }
@@ -57,11 +60,25 @@
     }
 
     function GetWorkBreakString() {
-        if (timeToCountDown === workTime) {
-            return 'Work';
+        if (timeState === workState) {
+            return workState;
         } else {
-            return 'Break';
+            return breakState;
         }
+    }
+
+    function SetWork(params) {
+        timeState = workState;
+        SetTimeToCountdown(workTime);
+    }
+
+    function SetBrake(params) {
+        timeState = breakState;
+        SetTimeToCountdown(breakTime);
+    }
+
+    function SetTimeToCountdown(time) {
+        timeToCountDown = time;
     }
 
     window.onload = function () {
@@ -78,7 +95,7 @@
         } else {
             isRunning = false;
             start.textContent = 'Start';
-            timeToCountDown = timeLeft;
+            SetTimeToCountdown(timeLeft);
             clearTimeout(timerId);
         }
     });
@@ -87,7 +104,7 @@
         if (isRunning === true) {
             return;
         }
-        timeToCountDown = workTime;
+        SetWork();
         updateTimer(timeToCountDown);
     });
 
@@ -95,7 +112,7 @@
         if (isRunning === true) {
             return;
         }
-        timeToCountDown = breakTime;
+        SetBrake();
         updateTimer(timeToCountDown);
     });
 })();

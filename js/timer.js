@@ -10,8 +10,8 @@
     var timeLeft;
 
     const workState = 'Work';
-    const workTime = 25 * 60 * 1000;
     const breakState = 'Break';
+    const workTime = 25 * 60 * 1000;
     const breakTime = 5 * 60 * 1000;
 
     var timeState = workState;
@@ -39,11 +39,8 @@
             if (timeLeft < 0) {
                 isRunning = false;
                 start.textContent = 'Start';
-
                 clearTimeout(timerId);
-                timeLeft = 0;
-                SetTimeToCountdown(changeTime(timeToCountDown));
-                updateTimer(timeToCountDown);
+                changeTime();
                 return;
             }
             updateTimer(timeLeft);
@@ -51,11 +48,12 @@
         }, 10);
     }
 
-    function changeTime(time) {
-        if (time === workTime) {
-            return breakTime;
+    function changeTime() {
+        timeLeft = 0;
+        if (timeState === workState) {
+            SetBrake();
         } else {
-            return workTime;
+            SetWork();
         }
     }
 
@@ -70,11 +68,13 @@
     function SetWork(params) {
         timeState = workState;
         SetTimeToCountdown(workTime);
+        updateTimer(timeToCountDown);
     }
 
     function SetBrake(params) {
         timeState = breakState;
         SetTimeToCountdown(breakTime);
+        updateTimer(timeToCountDown);
     }
 
     function SetTimeToCountdown(time) {
@@ -105,7 +105,6 @@
             return;
         }
         SetWork();
-        updateTimer(timeToCountDown);
     });
 
     breakButton.addEventListener('click', function () {
@@ -113,6 +112,5 @@
             return;
         }
         SetBrake();
-        updateTimer(timeToCountDown);
     });
 })();

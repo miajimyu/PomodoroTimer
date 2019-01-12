@@ -1,3 +1,6 @@
+const Config = require('electron-config');
+const config = new Config();
+
 (function name(params) {
     'use strict';
 
@@ -8,10 +11,10 @@
 
     const STATE_WORK = 'Work';
     const STATE_BREAK = 'Break';
-    const WORKTIME = 25 * 60 * 1000;
-    const BREAKTIME = 5 * 60 * 1000;
-    // const WORKTIME = 25 * 1000;
-    // const BREAKTIME = 5 * 1000;
+    // const WORKTIME = 25 * 60 * 1000;
+    // const BREAKTIME = 5 * 60 * 1000;
+    const WORKTIME = 25 * 1000;
+    const BREAKTIME = 5 * 1000;
     const DEFAULT_TARGET_NUM = 6;
 
     let pomodoroTimer = {
@@ -23,8 +26,19 @@
         timeLeft: null,
         interval: {
             targetNum: DEFAULT_TARGET_NUM,
-            currentNum: 0,
+            currentNum: GetCurrentNum(),
         },
+    }
+
+    function GetCurrentNum() {
+        let day = (new Date(config.get('date'))).getDate();
+        let today = (new Date()).getDate();
+
+        if (day !== today) {
+            return 0;
+        } else {
+            return config.get('pomodoroTimer.interval.currentNum');
+        }
     }
 
     function updateTimer(t) {
@@ -65,6 +79,7 @@
         } else {
             SetWork();
         }
+        config.set('pomodoroTimer.interval.currentNum', pomodoroTimer.interval.currentNum);
     }
 
     function GetWorkBreakString() {

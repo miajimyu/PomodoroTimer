@@ -11,10 +11,8 @@ const config = new Config();
 
     const STATE_WORK = 'Work';
     const STATE_BREAK = 'Break';
-    // const WORKTIME = 25 * 60 * 1000;
-    // const BREAKTIME = 5 * 60 * 1000;
-    const WORKTIME = 25 * 1000;
-    const BREAKTIME = 5 * 1000;
+    const WORKTIME = 25 * 60 * 1000;
+    const BREAKTIME = 5 * 60 * 1000;
     const DEFAULT_TARGET_NUM = 6;
 
     let pomodoroTimer = {

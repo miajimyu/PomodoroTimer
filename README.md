@@ -4,6 +4,6 @@
 
 ```terminal
 npm install --save electron
-npm install --save electron-config
+npm install --save electron-store
 electron-packager . app --platform=darwin --arch=x64 --overwrite
 ```

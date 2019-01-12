@@ -6,18 +6,19 @@
     var breakButton = document.getElementById('break');
     var start = document.getElementById('start');
 
-    var startTime;
-    var timeLeft;
-
     const workState = 'Work';
     const breakState = 'Break';
     const workTime = 25 * 60 * 1000;
     const breakTime = 5 * 60 * 1000;
 
-    var timeState = workState;
-    var timeToCountDown = workTime;
-    var timerId;
-    var isRunning = false;
+    let pomodoroTimer = {
+        state: workState,
+        cycle: workTime,
+        isRunning: false,
+        timerId: null,
+        startTime: null,
+        timeLeft: null
+    }
 
     function updateTimer(t) {
         var d = new Date(t);
@@ -34,23 +35,23 @@
     }
 
     function countDown() {
-        timerId = setTimeout(function () {
-            timeLeft = timeToCountDown - (Date.now() - startTime);
-            if (timeLeft < 0) {
-                isRunning = false;
+        pomodoroTimer.timerId = setTimeout(function () {
+            pomodoroTimer.timeLeft = pomodoroTimer.cycle - (Date.now() - pomodoroTimer.startTime);
+            if (pomodoroTimer.timeLeft < 0) {
+                pomodoroTimer.isRunning = false;
                 start.textContent = 'Start';
-                clearTimeout(timerId);
+                clearTimeout(pomodoroTimer.timerId);
                 changeTime();
                 return;
             }
-            updateTimer(timeLeft);
+            updateTimer(pomodoroTimer.timeLeft);
             countDown()
         }, 10);
     }
 
     function changeTime() {
-        timeLeft = 0;
-        if (timeState === workState) {
+        pomodoroTimer.timeLeft = 0;
+        if (pomodoroTimer.state === workState) {
             SetBrake();
         } else {
             SetWork();
@@ -58,7 +59,7 @@
     }
 
     function GetWorkBreakString() {
-        if (timeState === workState) {
+        if (pomodoroTimer.state === workState) {
             return workState;
         } else {
             return breakState;
@@ -66,49 +67,49 @@
     }
 
     function SetWork(params) {
-        timeState = workState;
+        pomodoroTimer.state = workState;
         SetTimeToCountdown(workTime);
-        updateTimer(timeToCountDown);
+        updateTimer(pomodoroTimer.cycle);
     }
 
     function SetBrake(params) {
-        timeState = breakState;
+        pomodoroTimer.state = breakState;
         SetTimeToCountdown(breakTime);
-        updateTimer(timeToCountDown);
+        updateTimer(pomodoroTimer.cycle);
     }
 
     function SetTimeToCountdown(time) {
-        timeToCountDown = time;
+        pomodoroTimer.cycle = time;
     }
 
     window.onload = function () {
         // ページ読み込み時に実行したい処理
-        updateTimer(timeToCountDown);
+        updateTimer(pomodoroTimer.cycle);
     }
 
     start.addEventListener('click', function () {
-        if (isRunning === false) {
-            isRunning = true;
+        if (pomodoroTimer.isRunning === false) {
+            pomodoroTimer.isRunning = true;
             start.textContent = 'Stop';
-            startTime = Date.now();
+            pomodoroTimer.startTime = Date.now();
             countDown();
         } else {
-            isRunning = false;
+            pomodoroTimer.isRunning = false;
             start.textContent = 'Start';
-            SetTimeToCountdown(timeLeft);
-            clearTimeout(timerId);
+            SetTimeToCountdown(pomodoroTimer.timeLeft);
+            clearTimeout(pomodoroTimer.timerId);
         }
     });
 
     workButton.addEventListener('click', function () {
-        if (isRunning === true) {
+        if (pomodoroTimer.isRunning === true) {
             return;
         }
         SetWork();
     });
 
     breakButton.addEventListener('click', function () {
-        if (isRunning === true) {
+        if (pomodoroTimer.isRunning === true) {
             return;
         }
         SetBrake();

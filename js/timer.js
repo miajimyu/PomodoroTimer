@@ -6,18 +6,25 @@
     var breakButton = document.getElementById('break');
     var start = document.getElementById('start');
 
-    const workState = 'Work';
-    const breakState = 'Break';
-    const workTime = 25 * 60 * 1000;
-    const breakTime = 5 * 60 * 1000;
+    const STATE_WORK = 'Work';
+    const STATE_BREAK = 'Break';
+    const WORKTIME = 25 * 60 * 1000;
+    const BREAKTIME = 5 * 60 * 1000;
+    // const WORKTIME = 25 * 1000;
+    // const BREAKTIME = 5 * 1000;
+    const DEFAULT_TARGET_NUM = 6;
 
     let pomodoroTimer = {
-        state: workState,
-        cycle: workTime,
+        state: STATE_WORK,
+        cycle: WORKTIME,
         isRunning: false,
         timerId: null,
         startTime: null,
-        timeLeft: null
+        timeLeft: null,
+        interval: {
+            targetNum: DEFAULT_TARGET_NUM,
+            currentNum: 0,
+        },
     }
 
     function updateTimer(t) {
@@ -31,6 +38,7 @@
         s = ('0' + s).slice(-2);
         timerString = m + ':' + s;
         timer.textContent = timerString;
+        interval.textContent = `${pomodoroTimer.interval.currentNum}/${pomodoroTimer.interval.targetNum}`
         document.title = GetWorkBreakString();
     }
 
@@ -51,7 +59,8 @@
 
     function changeTime() {
         pomodoroTimer.timeLeft = 0;
-        if (pomodoroTimer.state === workState) {
+        if (pomodoroTimer.state === STATE_WORK) {
+            pomodoroTimer.interval.currentNum++;
             SetBrake();
         } else {
             SetWork();
@@ -59,22 +68,22 @@
     }
 
     function GetWorkBreakString() {
-        if (pomodoroTimer.state === workState) {
-            return workState;
+        if (pomodoroTimer.state === STATE_WORK) {
+            return STATE_WORK;
         } else {
-            return breakState;
+            return STATE_BREAK;
         }
     }
 
     function SetWork(params) {
-        pomodoroTimer.state = workState;
-        SetTimeToCountdown(workTime);
+        pomodoroTimer.state = STATE_WORK;
+        SetTimeToCountdown(WORKTIME);
         updateTimer(pomodoroTimer.cycle);
     }
 
     function SetBrake(params) {
-        pomodoroTimer.state = breakState;
-        SetTimeToCountdown(breakTime);
+        pomodoroTimer.state = STATE_BREAK;
+        SetTimeToCountdown(BREAKTIME);
         updateTimer(pomodoroTimer.cycle);
     }
 

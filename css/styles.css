@@ -6,13 +6,19 @@ body {
 }
 
 .container {
-    margin: auto;
+    display: flex;
+    justify-content: space-around;
     background: white;
     text-align: center;
 }
 
 #timer {
     font-size: 40px;
+}
+
+#interval {
+    align-self: center;
+    font-size: 30px;
 }
 
 .controls > div {

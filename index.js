@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron');
-const Config = require('electron-config');
+const Config = require('electron-store');
 
 let mainWindow;
 const config = new Config({

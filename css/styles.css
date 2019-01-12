@@ -5,6 +5,10 @@ body {
     user-select: none;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 .container {
     display: flex;
     justify-content: space-around;

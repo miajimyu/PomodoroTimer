@@ -24,6 +24,7 @@ function createWindow() {
     webPreferences: { backgroundThrottling: false },
   });
 
+  SetConfigOnCreateWindow();
   mainWindow.loadFile('index.html');
 
   ['resize', 'move'].forEach(event => {
@@ -37,10 +38,15 @@ function createWindow() {
   });
 };
 
+function SetConfigOnCreateWindow() {
+  var date = new Date();
+  // date = new Date(date.getFullYear(), date.getMonth(), date.setDate() - 1);
+  config.set('date', date);
+}
+
 app.on('ready', createWindow);
 
 app.on('window-all-closed', function () {
-  config.set('date', Date());
   if (process.platform !== 'darwin') {
     app.quit()
   }

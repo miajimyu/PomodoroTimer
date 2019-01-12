@@ -29,15 +29,23 @@ const config = new Config();
     }
 
     function GetCurrentNum() {
-        let day = (new Date(config.get('date'))).getDate();
-        let today = (new Date()).getDate();
-
-        if (day !== today) {
-            return 0;
-        } else {
-            return config.get('pomodoroTimer.interval.currentNum');
+        if (IsNeedRefresh()) {
+            config.set('pomodoroTimer.interval.currentNum', 0);
         }
+        return config.get('pomodoroTimer.interval.currentNum');
     }
+
+    function IsNeedRefresh(){
+        let configDate = new Date(config.get('date'));
+        let refreshDate = new Date(configDate.getFullYear(), configDate.getMonth(), configDate.getDate() + 1);
+        let now = new Date();
+
+        if (now >= refreshDate) {
+            return true;
+        } else {
+            return false;
+        }
+}
 
     function updateTimer(t) {
         var d = new Date(t);

@@ -13,9 +13,16 @@ const config = new Config();
     const STATE_BREAK = 'Break';
     const WORKTIME = 25 * 60 * 1000;
     const BREAKTIME = 5 * 60 * 1000;
-    // const WORKTIME = 5 * 1000;
-    // const BREAKTIME = 2 * 1000;
-    const DEFAULT_TARGET_NUM = 6;
+    const TARGET_NUM = {
+        DEFAULT: 6,
+        MIN: 1,
+        MAX: 99,
+    };
+    const CURRENT_NUM = {
+        DEFAULT: 0,
+        MIN: TARGET_NUM.MIN,
+        MAX: TARGET_NUM.MAX,
+    };
     let isAutoStart = true;
 
     let pomodoroTimer = {
@@ -26,7 +33,7 @@ const config = new Config();
         startTime: null,
         timeLeft: null,
         interval: {
-            targetNum: DEFAULT_TARGET_NUM,
+            targetNum: TARGET_NUM.DEFAULT,
             currentNum: GetCurrentNum(),
         },
     }
@@ -71,7 +78,6 @@ const config = new Config();
             if (pomodoroTimer.timeLeft < 0) {
                 clearTimeout(pomodoroTimer.timerId);
                 changeTime();
-                debugger;
                 if (isAutoStart === false) {
                     StopPomodoroTimer();
                     return;
@@ -87,12 +93,20 @@ const config = new Config();
     function changeTime() {
         pomodoroTimer.timeLeft = 0;
         if (pomodoroTimer.state === STATE_WORK) {
-            pomodoroTimer.interval.currentNum++;
+            AddCurrentNum();
             SetBrake();
         } else {
             SetWork();
         }
         config.set('pomodoroTimer.interval.currentNum', pomodoroTimer.interval.currentNum);
+    }
+
+    function AddCurrentNum() {
+        if (pomodoroTimer.interval.currentNum < CURRENT_NUM.MAX) {
+            pomodoroTimer.interval.currentNum++;
+        } else {
+            pomodoroTimer.interval.currentNum = CURRENT_NUM.MAX;
+        }
     }
 
     function GetWorkBreakString() {

@@ -25,7 +25,7 @@ const config = new Config();
         MIN: TARGET_NUM.MIN,
         MAX: TARGET_NUM.MAX,
     };
-    let isAutoStart = true;
+    let isAutoStart = false;
 
     let pomodoroTimer = {
         state: STATE_WORK,

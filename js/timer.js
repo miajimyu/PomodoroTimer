@@ -13,7 +13,10 @@ const config = new Config();
     const STATE_BREAK = 'Break';
     const WORKTIME = 25 * 60 * 1000;
     const BREAKTIME = 5 * 60 * 1000;
+    // const WORKTIME = 5 * 1000;
+    // const BREAKTIME = 2 * 1000;
     const DEFAULT_TARGET_NUM = 6;
+    let isAutoStart = true;
 
     let pomodoroTimer = {
         state: STATE_WORK,
@@ -35,7 +38,7 @@ const config = new Config();
         return config.get('pomodoroTimer.interval.currentNum');
     }
 
-    function IsNeedRefresh(){
+    function IsNeedRefresh() {
         let configDate = new Date(config.get('date'));
         let refreshDate = new Date(configDate.getFullYear(), configDate.getMonth(), configDate.getDate() + 1);
         let now = new Date();
@@ -45,7 +48,7 @@ const config = new Config();
         } else {
             return false;
         }
-}
+    }
 
     function updateTimer(t) {
         var d = new Date(t);
@@ -58,7 +61,7 @@ const config = new Config();
         s = ('0' + s).slice(-2);
         timerString = m + ':' + s;
         timer.textContent = timerString;
-        interval.textContent = `${pomodoroTimer.interval.currentNum}/${pomodoroTimer.interval.targetNum}`
+        interval.textContent = `${pomodoroTimer.interval.currentNum}/${pomodoroTimer.interval.targetNum}`;
         document.title = GetWorkBreakString();
     }
 
@@ -66,11 +69,15 @@ const config = new Config();
         pomodoroTimer.timerId = setTimeout(function () {
             pomodoroTimer.timeLeft = pomodoroTimer.cycle - (Date.now() - pomodoroTimer.startTime);
             if (pomodoroTimer.timeLeft < 0) {
-                pomodoroTimer.isRunning = false;
-                start.textContent = 'Start';
                 clearTimeout(pomodoroTimer.timerId);
                 changeTime();
-                return;
+                debugger;
+                if (isAutoStart === false) {
+                    StopPomodoroTimer();
+                    return;
+                } else {
+                    StartPomodoroTimer();
+                }
             }
             updateTimer(pomodoroTimer.timeLeft);
             countDown()
@@ -119,17 +126,25 @@ const config = new Config();
 
     start.addEventListener('click', function () {
         if (pomodoroTimer.isRunning === false) {
-            pomodoroTimer.isRunning = true;
-            start.textContent = 'Stop';
-            pomodoroTimer.startTime = Date.now();
+            StartPomodoroTimer();
             countDown();
         } else {
-            pomodoroTimer.isRunning = false;
-            start.textContent = 'Start';
+            StopPomodoroTimer();
             SetTimeToCountdown(pomodoroTimer.timeLeft);
             clearTimeout(pomodoroTimer.timerId);
         }
     });
+
+    function StartPomodoroTimer() {
+        pomodoroTimer.isRunning = true;
+        start.textContent = 'Stop';
+        pomodoroTimer.startTime = Date.now();
+    }
+
+    function StopPomodoroTimer() {
+        pomodoroTimer.isRunning = false;
+        start.textContent = 'Start';
+    }
 
     workButton.addEventListener('click', function () {
         if (pomodoroTimer.isRunning === true) {

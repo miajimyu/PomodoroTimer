@@ -86,7 +86,7 @@ const config = new Config();
                 }
             }
             updateTimer(pomodoroTimer.timeLeft);
-            countDown()
+            countDown();
         }, 10);
     }
 

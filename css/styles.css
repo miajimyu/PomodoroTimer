@@ -11,6 +11,7 @@ body::-webkit-scrollbar {
 
 .container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     background: white;
     text-align: center;

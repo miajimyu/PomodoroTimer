@@ -1,3 +1,4 @@
+//@ts-check
 const Config = require('electron-store');
 const config = new Config();
 
@@ -8,6 +9,7 @@ const config = new Config();
     var workButton = document.getElementById('work');
     var breakButton = document.getElementById('break');
     var start = document.getElementById('start');
+    var interval = document.getElementById('interval');
 
     const STATE_WORK = 'Work';
     const STATE_BREAK = 'Break';
@@ -59,13 +61,10 @@ const config = new Config();
 
     function updateTimer(t) {
         var d = new Date(t);
-        var m = d.getMinutes();
-        var s = d.getSeconds();
+        var m = ('0' + d.getMinutes()).slice(-2);
+        var s = ('0' + d.getSeconds()).slice(-2);
         var timerString;
 
-        // 文字列＋数値は、文字列になる
-        m = ('0' + m).slice(-2);
-        s = ('0' + s).slice(-2);
         timerString = m + ':' + s;
         timer.textContent = timerString;
         interval.textContent = `${pomodoroTimer.interval.currentNum}/${pomodoroTimer.interval.targetNum}`;

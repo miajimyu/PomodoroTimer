@@ -1,3 +1,4 @@
+//@ts-check
 const { app, BrowserWindow } = require('electron');
 const Config = require('electron-store');
 

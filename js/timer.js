@@ -41,7 +41,7 @@ const config = new Config();
     }
 
     function GetCurrentNum() {
-        if (IsNeedRefresh()) {
+        if ((IsNeedRefresh() === true) || (IsCurrentNumInRange() !== false)) {
             config.set('pomodoroTimer.interval.currentNum', 0);
         }
         return config.get('pomodoroTimer.interval.currentNum');
@@ -53,6 +53,15 @@ const config = new Config();
         let now = new Date();
 
         if (now >= refreshDate) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function IsCurrentNumInRange() {
+        var number = config.get('pomodoroTimer.interval.currentNum');
+        if ((CURRENT_NUM.MIN <= number) || (0 <= CURRENT_NUM.MAX))  {
             return true;
         } else {
             return false;

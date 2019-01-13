@@ -98,7 +98,6 @@ const config = new Config();
         } else {
             SetWork();
         }
-        config.set('pomodoroTimer.interval.currentNum', pomodoroTimer.interval.currentNum);
     }
 
     function AddCurrentNum() {
@@ -107,6 +106,7 @@ const config = new Config();
         } else {
             pomodoroTimer.interval.currentNum = CURRENT_NUM.MAX;
         }
+        config.set('pomodoroTimer.interval.currentNum', pomodoroTimer.interval.currentNum);
     }
 
     function GetWorkBreakString() {

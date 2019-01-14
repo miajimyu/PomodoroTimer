@@ -21,8 +21,8 @@ const TARGET_NUM = {
 };
 const CURRENT_NUM = {
     DEFAULT: 0,
-    MIN: TARGET_NUM.MIN,
-    MAX: TARGET_NUM.MAX,
+    MIN: 0,
+    MAX: 99,
 };
 let isAutoStart = false;
 

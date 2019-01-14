@@ -61,7 +61,7 @@ const config = new Config();
 
     function IsCurrentNumInRange() {
         var number = config.get('pomodoroTimer.interval.currentNum');
-        if ((CURRENT_NUM.MIN <= number) || (0 <= CURRENT_NUM.MAX))  {
+        if ((CURRENT_NUM.MIN <= number) && (number <= CURRENT_NUM.MAX))  {
             return true;
         } else {
             return false;

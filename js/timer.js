@@ -2,7 +2,7 @@
 const Config = require('electron-store');
 const config = new Config();
 
-(function name(params) {
+(function name() {
     'use strict';
 
     var timer = document.getElementById('timer');
@@ -68,6 +68,9 @@ const config = new Config();
         }
     }
 
+    /**
+     * @param {string | number | Date} t
+     */
     function updateTimer(t) {
         var d = new Date(t);
         var m = ('0' + d.getMinutes()).slice(-2);
@@ -125,18 +128,21 @@ const config = new Config();
         }
     }
 
-    function SetWork(params) {
+    function SetWork() {
         pomodoroTimer.state = STATE_WORK;
         SetTimeToCountdown(WORKTIME);
         updateTimer(pomodoroTimer.cycle);
     }
 
-    function SetBrake(params) {
+    function SetBrake() {
         pomodoroTimer.state = STATE_BREAK;
         SetTimeToCountdown(BREAKTIME);
         updateTimer(pomodoroTimer.cycle);
     }
 
+    /**
+     * @param {number} time
+     */
     function SetTimeToCountdown(time) {
         pomodoroTimer.cycle = time;
     }

@@ -40,9 +40,21 @@ let pomodoroTimer = {
 };
 
 function GetCurrentNum() {
-    if ((IsNeedRefresh() === true) || (IsCurrentNumInRange() !== false)) {
+    let isResetCurrentNum = false;
+    debugger;
+
+    if (IsNeedRefresh() === true) {
+        isResetCurrentNum = true;
+    }
+
+    if (IsCurrentNumInRange() === false) {
+        isResetCurrentNum = true;
+    }
+
+    if (isResetCurrentNum === true) {
         config.set('pomodoroTimer.interval.currentNum', 0);
     }
+
     return config.get('pomodoroTimer.interval.currentNum');
 }
 
@@ -60,7 +72,7 @@ function IsNeedRefresh() {
 
 function IsCurrentNumInRange() {
     var number = config.get('pomodoroTimer.interval.currentNum');
-    if ((CURRENT_NUM.MIN <= number) && (number <= CURRENT_NUM.MAX))  {
+    if ((CURRENT_NUM.MIN <= number) && (number <= CURRENT_NUM.MAX)) {
         return true;
     } else {
         return false;

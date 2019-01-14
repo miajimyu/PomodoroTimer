@@ -4,7 +4,8 @@
   "description": "CountdownTimer https://dotinstall.com/lessons/countdown_js",
   "main": "index.js",
   "scripts": {
-    "electron": "electron ."
+    "electron": "electron .",
+    "package": "electron-packager . app --platform=darwin --arch=x64 --overwrite"
   },
   "author": "",
   "license": "ISC",

@@ -55,6 +55,8 @@ function GetCurrentNum() {
         config.set('pomodoroTimer.interval.currentNum', 0);
     }
 
+    SetConfigDate();
+
     return config.get('pomodoroTimer.interval.currentNum');
 }
 
@@ -68,6 +70,12 @@ function IsNeedRefresh() {
     } else {
         return false;
     }
+}
+
+function SetConfigDate() {
+    var date = new Date();
+    // date = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+    config.set('date', date);
 }
 
 function IsCurrentNumInRange() {

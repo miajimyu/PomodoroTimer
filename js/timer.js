@@ -17,7 +17,7 @@ const LONG_BREAK_TIME = 15 * 60 * 1000;
 // const WORK_TIME = 5 * 1000;
 // const SHORT_BREAK_TIME = 2 * 1000;
 // const LONG_BREAK_TIME = 3 * 1000;
-const LONG_BREAK_AFTER = 0;
+const LONG_BREAK_AFTER = 3;
 
 const TARGET_NUM = {
     DEFAULT: 6,
@@ -46,7 +46,6 @@ let pomodoroTimer = {
 
 function GetCurrentNum() {
     let isResetCurrentNum = false;
-    debugger;
 
     if (IsNeedRefresh() === true) {
         isResetCurrentNum = true;

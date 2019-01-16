@@ -9,11 +9,16 @@ var start = document.getElementById('start');
 var interval = document.getElementById('interval');
 
 const STATE_WORK = 'Work';
-const STATE_BREAK = 'Break';
-const WORKTIME = 25 * 60 * 1000;
-const BREAKTIME = 5 * 60 * 1000;
-// const WORKTIME = 5 * 1000;
-// const BREAKTIME = 2 * 1000;
+const STATE_SHORT_BREAK = 'ShortBreak';
+const STATE_LONG_BREAK = 'LongBreak'
+// const WORK_TIME = 25 * 60 * 1000;
+// const SHORT_BREAK_TIME = 5 * 60 * 1000;
+// const LONG_BREAK_TIME = 15 * 60 * 1000;
+const WORK_TIME = 5 * 1000;
+const SHORT_BREAK_TIME = 2 * 1000;
+const LONG_BREAK_TIME = 3 * 1000;
+const LONG_BREAK_AFTER = 0;
+
 const TARGET_NUM = {
     DEFAULT: 6,
     MIN: 1,
@@ -28,7 +33,7 @@ let isAutoStart = false;
 
 let pomodoroTimer = {
     state: STATE_WORK,
-    cycle: WORKTIME,
+    cycle: WORK_TIME,
     isRunning: false,
     timerId: null,
     startTime: null,
@@ -106,7 +111,7 @@ function changeTime() {
     pomodoroTimer.timeLeft = 0;
     if (pomodoroTimer.state === STATE_WORK) {
         AddCurrentNum();
-        SetBrake();
+        SetBreak();
     } else {
         SetWork();
     }
@@ -122,25 +127,46 @@ function AddCurrentNum() {
 }
 
 function GetWorkBreakString() {
-    if (pomodoroTimer.state === STATE_WORK) {
-        return STATE_WORK;
-    } else {
-        return STATE_BREAK;
-    }
+    return String(pomodoroTimer.state);
 }
 
 function SetWork() {
     pomodoroTimer.state = STATE_WORK;
-    SetTimeToCountdown(WORKTIME);
+    SetTimeToCountdown(WORK_TIME);
     updateTimer(pomodoroTimer.cycle);
 }
 
-function SetBrake() {
-    pomodoroTimer.state = STATE_BREAK;
-    SetTimeToCountdown(BREAKTIME);
+function SetBreak() {
+    if (IsLongBreak() === true) {
+        SetLongBreak();
+    } else {
+        SetShortBreak();
+    }
+}
+
+function SetShortBreak() {
+    pomodoroTimer.state = STATE_SHORT_BREAK;
+    SetTimeToCountdown(SHORT_BREAK_TIME);
     updateTimer(pomodoroTimer.cycle);
 }
 
+function SetLongBreak() {
+    pomodoroTimer.state = STATE_LONG_BREAK;
+    SetTimeToCountdown(LONG_BREAK_TIME);
+    updateTimer(pomodoroTimer.cycle);
+}
+
+function IsLongBreak() {
+    if (pomodoroTimer.interval.currentNum <= 0) {
+        return false;
+    }
+
+    if (pomodoroTimer.interval.currentNum % LONG_BREAK_AFTER === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
 /**
  * @param {number} time
  */
@@ -186,7 +212,7 @@ breakButton.addEventListener('click', function () {
     if (pomodoroTimer.isRunning === true) {
         return;
     }
-    SetBrake();
+    SetBreak();
 });
 
 function countDown() {

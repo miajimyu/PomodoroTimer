@@ -136,10 +136,12 @@ function SetWork() {
 }
 
 function SetBreak() {
-    if (IsLongBreak() === true) {
+    if (((IsLongBreak() === true) && (LONG_BREAK_TIME !== 0))) {
         SetLongBreak();
-    } else {
+    } else if (SHORT_BREAK_TIME !== 0) {
         SetShortBreak();
+    } else {
+        SetWork();
     }
 }
 

@@ -197,6 +197,8 @@ function StartPomodoroTimer() {
     pomodoroTimer.startTime = Date.now();
     document.getElementById('work').style.opacity = '0.3';
     document.getElementById('break').style.opacity = '0.3';
+    document.getElementById('work').style.cursor = 'auto';
+    document.getElementById('break').style.cursor = 'auto';
 }
 
 function StopPomodoroTimer() {
@@ -204,6 +206,8 @@ function StopPomodoroTimer() {
     start.textContent = 'Start';
     document.getElementById('work').style.opacity = '1.0';
     document.getElementById('break').style.opacity = '1.0';
+    document.getElementById('work').style.cursor = 'pointer';
+    document.getElementById('break').style.cursor = 'pointer';
 }
 
 workButton.addEventListener('click', function () {

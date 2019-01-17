@@ -1,8 +1,10 @@
 //@ts-check
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const Config = require('electron-store');
 
 let mainWindow;
+let addWindow;
+
 const config = new Config({
   defaults: {
     bounds: {
@@ -41,7 +43,22 @@ function createWindow() {
 
 app.on('ready', () => {
   createWindow()
+  const mainMenu  = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(mainMenu);
 });
+
+
+function createAddWindow() {
+  addWindow = new BrowserWindow({
+      width: 300,
+      height: 200,
+      alwaysOnTop: true,
+      webPreferences: { backgroundThrottling: false },
+      title: 'Preference'
+  });
+  addWindow.loadURL(`file://${__dirname}/preference.html`);
+  addWindow.on('close', () => addWindow = null);
+}
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
@@ -54,3 +71,47 @@ app.on('activate', function () {
     createWindow();
   }
 });
+
+const menuTemplate = [
+  {
+      label: 'File',
+      submenu: [
+          {
+              label: 'Preferense',
+              click() {
+                  createAddWindow();
+              }
+          },
+          {
+              label: 'Quit',
+              accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+              click() {
+                  app.quit();
+              }
+          },
+      ]
+  }
+];
+
+
+if (process.platform === 'darwin') {
+  menuTemplate.unshift({
+      label: app.getName(),
+  });
+}
+
+if (process.env.NODE_ENV !== 'production') {
+  menuTemplate.push({
+      label: 'View',
+      submenu: [
+          { role: 'reload' },
+          {
+              label: 'Toggle Developer Tools',
+              accelerator: process.platform === 'darwin' ? 'Command+Alt+I' : 'Ctrl+Shift+I',
+              click(item, focusedWdindow) {
+                  focusedWdindow.toggleDevTools();
+              }
+          }
+      ]
+  });
+}

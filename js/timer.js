@@ -195,11 +195,15 @@ function StartPomodoroTimer() {
     pomodoroTimer.isRunning = true;
     start.textContent = 'Stop';
     pomodoroTimer.startTime = Date.now();
+    document.getElementById('work').style.opacity = '0.3';
+    document.getElementById('break').style.opacity = '0.3';
 }
 
 function StopPomodoroTimer() {
     pomodoroTimer.isRunning = false;
     start.textContent = 'Start';
+    document.getElementById('work').style.opacity = '1.0';
+    document.getElementById('break').style.opacity = '1.0';
 }
 
 workButton.addEventListener('click', function () {

@@ -48,16 +48,11 @@ app.on('ready', () => {
 });
 
 
-function createAddWindow() {
-  addWindow = new BrowserWindow({
-      width: 300,
-      height: 200,
-      alwaysOnTop: true,
-      webPreferences: { backgroundThrottling: false },
-      title: 'Preference'
+function showPreferenceWindow() {
+  mainWindow.loadURL(`file://${__dirname}/preference.html`);
+  mainWindow.on('close', () => {
+    mainWindow.loadFile('index.html');
   });
-  addWindow.loadURL(`file://${__dirname}/preference.html`);
-  addWindow.on('close', () => addWindow = null);
 }
 
 app.on('window-all-closed', function () {
@@ -78,8 +73,9 @@ const menuTemplate = [
       submenu: [
           {
               label: 'Preferense',
+              accelerator: 'CmdOrCtrl+P',
               click() {
-                  createAddWindow();
+                  showPreferenceWindow();
               }
           },
           {

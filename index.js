@@ -36,23 +36,23 @@ function createWindow() {
     });
   });
 
-  mainWindow.on('closed', function () {
-    mainWindow = null;
-  });
+  mainWindow.on('close', () => app.quit());
 };
 
 app.on('ready', () => {
   createWindow()
-  const mainMenu  = Menu.buildFromTemplate(menuTemplate);
+  const mainMenu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(mainMenu);
 });
 
 
-function showPreferenceWindow() {
-  mainWindow.loadURL(`file://${__dirname}/preference.html`);
-  mainWindow.on('close', () => {
-    mainWindow.loadFile('index.html');
+function createPreferenceWindow() {
+  addWindow = new BrowserWindow({
+    width: 300,
+    height: 300,
   });
+  addWindow.loadURL(`file://${__dirname}/preference.html`);
+  addWindow.on('close', () => addWindow = null);
 }
 
 app.on('window-all-closed', function () {
@@ -69,45 +69,45 @@ app.on('activate', function () {
 
 const menuTemplate = [
   {
-      label: 'File',
-      submenu: [
-          {
-              label: 'Preferense',
-              accelerator: 'CmdOrCtrl+P',
-              click() {
-                  showPreferenceWindow();
-              }
-          },
-          {
-              label: 'Quit',
-              accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
-              click() {
-                  app.quit();
-              }
-          },
-      ]
+    label: 'File',
+    submenu: [
+      {
+        label: 'Preferense',
+        accelerator: 'CmdOrCtrl+P',
+        click() {
+          createPreferenceWindow();
+        }
+      },
+      {
+        label: 'Quit',
+        accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+        click() {
+          app.quit();
+        }
+      },
+    ]
   }
 ];
 
 
 if (process.platform === 'darwin') {
   menuTemplate.unshift({
-      label: app.getName(),
+    label: app.getName(),
   });
 }
 
 if (process.env.NODE_ENV !== 'production') {
   menuTemplate.push({
-      label: 'View',
-      submenu: [
-          { role: 'reload' },
-          {
-              label: 'Toggle Developer Tools',
-              accelerator: process.platform === 'darwin' ? 'Command+Alt+I' : 'Ctrl+Shift+I',
-              click(item, focusedWdindow) {
-                  focusedWdindow.toggleDevTools();
-              }
-          }
-      ]
+    label: 'View',
+    submenu: [
+      { role: 'reload' },
+      {
+        label: 'Toggle Developer Tools',
+        accelerator: process.platform === 'darwin' ? 'Command+Alt+I' : 'Ctrl+Shift+I',
+        click(item, focusedWdindow) {
+          focusedWdindow.toggleDevTools();
+        }
+      }
+    ]
   });
 }

@@ -45,11 +45,11 @@ app.on('ready', () => {
   Menu.setApplicationMenu(mainMenu);
 });
 
-
 function createPreferenceWindow() {
   addWindow = new BrowserWindow({
     width: 300,
     height: 300,
+    title: 'Preference',
   });
   addWindow.loadURL(`file://${__dirname}/preference.html`);
   addWindow.on('close', () => addWindow = null);
@@ -75,7 +75,9 @@ const menuTemplate = [
         label: 'Preferense',
         accelerator: 'CmdOrCtrl+P',
         click() {
-          createPreferenceWindow();
+          if (!addWindow) {
+            createPreferenceWindow();
+          }
         }
       },
       {

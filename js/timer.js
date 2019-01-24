@@ -56,12 +56,12 @@ function GetCurrentNum() {
     }
 
     if (isResetCurrentNum === true) {
-        config.set('pomodoroTimer.interval.currentNum', 0);
+        config.set('currentInterval', 0);
     }
 
     SetConfigDate();
 
-    return config.get('pomodoroTimer.interval.currentNum');
+    return config.get('currentInterval');
 }
 
 function IsNeedRefresh() {
@@ -83,7 +83,7 @@ function SetConfigDate() {
 }
 
 function IsCurrentNumInRange() {
-    var number = config.get('pomodoroTimer.interval.currentNum');
+    var number = config.get('currentInterval');
     if ((CURRENT_NUM.MIN <= number) && (number <= CURRENT_NUM.MAX)) {
         return true;
     } else {
@@ -122,7 +122,7 @@ function AddCurrentNum() {
     } else {
         pomodoroTimer.interval.currentNum = CURRENT_NUM.MAX;
     }
-    config.set('pomodoroTimer.interval.currentNum', pomodoroTimer.interval.currentNum);
+    config.set('currentInterval', pomodoroTimer.interval.currentNum);
 }
 
 function GetWorkBreakString() {

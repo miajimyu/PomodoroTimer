@@ -41,6 +41,11 @@ autoStartTimer.addEventListener('change', () => {
 });
 
 function OnDefaultButtonClick(){
+  setDefault();
+  setConfigAll();
+}
+
+function setDefault() {
   workInterval.value = 25;
   shortBreak.value = 5;
   longBreak.value = 15;
@@ -48,7 +53,6 @@ function OnDefaultButtonClick(){
   targetInterval.value = 6;
   alwaysOnTop.value = true;
   autoStartTimer.value = true;
-  setConfigAll();
 }
 
 function setConfigAll() {

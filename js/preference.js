@@ -10,26 +10,34 @@ let targetInterval = document.form1.targetInterval;
 let alwaysOnTop = document.form1.alwaysOnTop;
 let autoStartTimer = document.form1.autoStartTimer;
 
+function setConfigNumber(name, number) {
+  config.set(name, Number(number));
+}
+
+function setConfigBoolean(name, bool) {
+  config.set(name, Boolean(bool));
+}
+
 workInterval.addEventListener('change', () => {
-  config.set('workInterval', workInterval.value);
+  setConfigNumber('workInterval', workInterval.value);
 });
 shortBreak.addEventListener('change', () => {
-  config.set('shortBreak', shortBreak.value);
+  setConfigNumber(shortBreak.value);
 });
 longBreak.addEventListener('change', () => {
-  config.set('longBreak', longBreak.value);
+  setConfigNumber('longBreak', longBreak.value);
 });
 longBreakAfter.addEventListener('change', () => {
-  config.set('longBreakAfter', longBreakAfter.value);
+  setConfigNumber('longBreakAfter', longBreakAfter.value);
 });
 targetInterval.addEventListener('change', () => {
-  config.set('targetInterval', targetInterval.value);
+  setConfigNumber('targetInterval', targetInterval.value);
 });
 alwaysOnTop.addEventListener('change', () => {
-  config.set('alwaysOnTop', alwaysOnTop.value);
+  setConfigBoolean('alwaysOnTop', alwaysOnTop.value);
 });
 autoStartTimer.addEventListener('change', () => {
-  config.set('autoStartTimer', autoStartTimer.value);
+  setConfigBoolean('autoStartTimer', autoStartTimer.value);
 });
 
 function OnDefaultButtonClick(){
@@ -44,13 +52,13 @@ function OnDefaultButtonClick(){
 }
 
 function setConfigAll() {
-  config.set('workInterval', workInterval.value);
-  config.set('shortBreak', shortBreak.value);
-  config.set('longBreak', longBreak.value);
-  config.set('longBreakAfter', longBreakAfter.value);
-  config.set('targetInterval', targetInterval.value);
-  config.set('alwaysOnTop', alwaysOnTop.value);
-  config.set('autoStartTimer', autoStartTimer.value);
+  setConfigNumber('workInterval', workInterval.value);
+  setConfigNumber('shortBreak', shortBreak.value);
+  setConfigNumber('longBreak', longBreak.value);
+  setConfigNumber('longBreakAfter', longBreakAfter.value);
+  setConfigNumber('targetInterval', targetInterval.value);
+  setConfigBoolean('alwaysOnTop', alwaysOnTop.value);
+  setConfigBoolean('autoStartTimer', autoStartTimer.value);
 }
 
 (function getConfigAll() {

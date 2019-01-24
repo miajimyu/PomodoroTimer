@@ -8,7 +8,7 @@ const LONGBREAK = 15;
 const LONGBREAKAFTER = 3;
 const TARGETINTERVAL = 6;
 const ALWAYSONTOP = true;
-const AUTOSTARTTIMER = true;
+const AUTOSTARTTIMER = false;
 
 let workInterval = document.form1.workInterval;
 let shortBreak = document.form1.shortBreak;

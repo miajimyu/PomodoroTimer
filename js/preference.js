@@ -74,18 +74,12 @@ function setConfigAll() {
 }
 
 (function getConfigAll() {
-  workInterval.value = getConfig('workInterval', WORKINTERVAL);
-  shortBreak.value = getConfig('shortBreak', SHORTBREAK);
-  longBreak.value = getConfig('longBreak', LONGBREAK);
-  longBreakAfter.value = getConfig('longBreakAfter', LONGBREAKAFTER);
-  targetInterval.value = getConfig('targetInterval', TARGETINTERVAL);
-  alwaysOnTop.value = getConfig('alwaysOnTop', ALWAYSONTOP);
-  autoStartTimer.value = getConfig('autoStartTimer', AUTOSTARTTIMER);
+  workInterval.value = config.get('workInterval');
+  shortBreak.value = config.get('shortBreak');
+  longBreak.value = config.get('longBreak');
+  longBreakAfter.value = config.get('longBreakAfter');
+  targetInterval.value = config.get('targetInterval');
+  alwaysOnTop.value = config.get('alwaysOnTop');
+  autoStartTimer.value = config.get('autoStartTimer');
 })();
 
-function getConfig(name, defaultparam) {
-  if (!(config.get(name))) {
-    config.set(name, defaultparam);
-  }
-  return config.get(name);
-}

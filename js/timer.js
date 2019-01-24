@@ -11,25 +11,22 @@ var interval = document.getElementById('interval');
 const STATE_WORK = 'Work';
 const STATE_SHORT_BREAK = 'ShortBreak';
 const STATE_LONG_BREAK = 'LongBreak'
-const WORK_TIME = 25 * 60 * 1000;
-const SHORT_BREAK_TIME = 5 * 60 * 1000;
-const LONG_BREAK_TIME = 15 * 60 * 1000;
-// const WORK_TIME = 5 * 1000;
-// const SHORT_BREAK_TIME = 2 * 1000;
-// const LONG_BREAK_TIME = 3 * 1000;
-const LONG_BREAK_AFTER = 3;
+let WORK_TIME = config.get('workInterval') * 60 * 1000;
+let SHORT_BREAK_TIME = config.get('shortBreak') * 60 * 1000;
+let LONG_BREAK_TIME = config.get('longBreak') * 60 * 1000;
+let LONG_BREAK_AFTER = config.get('longBreakAfter');
 
-const TARGET_NUM = {
+let TARGET_NUM = {
     DEFAULT: 6,
     MIN: 1,
     MAX: 99,
 };
-const CURRENT_NUM = {
+let CURRENT_NUM = {
     DEFAULT: 0,
     MIN: 0,
     MAX: 99,
 };
-let isAutoStart = false;
+let isAutoStart = config.get('autoStartTimer');
 
 let pomodoroTimer = {
     state: STATE_WORK,

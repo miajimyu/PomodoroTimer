@@ -11,11 +11,20 @@ const config = new Config({
       width: 240,
       height: 125,
     },
+    workInterval: 25,
+    shortBreak: 5,
+    longBreak: 15,
+    longBreakAfter: 3,
+    targetInterval: 6,
+    currentInterval: 0,
+    alwaysOnTop: true,
+    autoStartTimer: false,
   },
 });
 
 function createWindow() {
   const { width, height, x, y } = config.get('bounds');
+  const alwaysOnTop = config.get('alwaysOnTop');
 
   mainWindow = new BrowserWindow({
     width,
@@ -24,7 +33,7 @@ function createWindow() {
     x,
     y,
     // resizable: false,
-    alwaysOnTop: true,
+    alwaysOnTop,
     webPreferences: { backgroundThrottling: false },
   });
 

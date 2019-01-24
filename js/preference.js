@@ -2,6 +2,14 @@
 const Config = require('electron-store');
 const config = new Config();
 
+const WORKINTERVAL = 25;
+const SHORTBREAK = 5;
+const LONGBREAK = 15;
+const LONGBREAKAFTER = 3;
+const TARGETINTERVAL = 6;
+const ALWAYSONTOP = true;
+const AUTOSTARTTIMER = true;
+
 let workInterval = document.form1.workInterval;
 let shortBreak = document.form1.shortBreak;
 let longBreak = document.form1.longBreak;
@@ -46,13 +54,13 @@ function OnDefaultButtonClick(){
 }
 
 function setDefaultPreferenceParameter() {
-  workInterval.value = 25;
-  shortBreak.value = 5;
-  longBreak.value = 15;
-  longBreakAfter.value = 3;
-  targetInterval.value = 6;
-  alwaysOnTop.value = true;
-  autoStartTimer.value = true;
+  workInterval.value = WORKINTERVAL;
+  shortBreak.value = SHORTBREAK;
+  longBreak.value = LONGBREAK;
+  longBreakAfter.value = LONGBREAKAFTER;
+  targetInterval.value = TARGETINTERVAL;
+  alwaysOnTop.value = ALWAYSONTOP;
+  autoStartTimer.value = AUTOSTARTTIMER;
 }
 
 function setConfigAll() {
@@ -66,11 +74,18 @@ function setConfigAll() {
 }
 
 (function getConfigAll() {
-  workInterval.value = config.get('workInterval');
-  shortBreak.value = config.get('shortBreak');
-  longBreak.value = config.get('longBreak');
-  longBreakAfter.value = config.get('longBreakAfter');
-  targetInterval.value = config.get('targetInterval');
-  alwaysOnTop.value = config.get('alwaysOnTop');
-  autoStartTimer.value = config.get('autoStartTimer');
+  workInterval.value = getConfig('workInterval', WORKINTERVAL);
+  shortBreak.value = getConfig('shortBreak', SHORTBREAK);
+  longBreak.value = getConfig('longBreak', LONGBREAK);
+  longBreakAfter.value = getConfig('longBreakAfter', LONGBREAKAFTER);
+  targetInterval.value = getConfig('targetInterval', TARGETINTERVAL);
+  alwaysOnTop.value = getConfig('alwaysOnTop', ALWAYSONTOP);
+  autoStartTimer.value = getConfig('autoStartTimer', AUTOSTARTTIMER);
 })();
+
+function getConfig(name, defaultparam) {
+  if (!(config.get(name))) {
+    config.set(name, defaultparam);
+  }
+  return config.get(name);
+}

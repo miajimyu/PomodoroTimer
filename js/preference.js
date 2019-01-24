@@ -41,11 +41,11 @@ autoStartTimer.addEventListener('change', () => {
 });
 
 function OnDefaultButtonClick(){
-  setDefault();
+  setDefaultPreferenceParameter();
   setConfigAll();
 }
 
-function setDefault() {
+function setDefaultPreferenceParameter() {
   workInterval.value = 25;
   shortBreak.value = 5;
   longBreak.value = 15;

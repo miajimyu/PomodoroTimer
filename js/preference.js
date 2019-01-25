@@ -25,7 +25,7 @@ function setConfigNumber(name, number) {
 }
 
 function setConfigBoolean(name, bool) {
-  config.set(name, Boolean(bool));
+  config.set(name, bool);
 }
 
 function focusSaveButton() {

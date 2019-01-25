@@ -28,14 +28,18 @@ function setConfigBoolean(name, bool) {
   config.set(name, Boolean(bool));
 }
 
-function changeSaveButtonEnable(params) {
+function focusSaveButton() {
   saveButton.style.backgroundColor = 'black';
   saveButton.style.color = 'white';
 }
 
+function blurSaveButton() {
+  saveButton.style.backgroundColor = 'white';
+  saveButton.style.color = 'black';
+}
+
 form1.addEventListener('change', () => {
-  saveButton.style.backgroundColor = 'black';
-  saveButton.style.color = 'white';
+  focusSaveButton();
 })
 
 workInterval.addEventListener('change', () => {
@@ -67,6 +71,7 @@ function OnDefaultButtonClick(){
 
 function OnSaveButtonClick() {
   setConfigAll();
+  blurSaveButton();
 }
 
 function setDefaultPreferenceParameter() {

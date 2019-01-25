@@ -1,6 +1,8 @@
 //@ts-check
 const Config = require('electron-store');
 const config = new Config();
+const electron = require('electron');
+const { ipcRenderer } = electron;
 
 var timer = document.getElementById('timer');
 var workButton = document.getElementById('work');
@@ -10,33 +12,26 @@ var interval = document.getElementById('interval');
 
 const STATE_WORK = 'Work';
 const STATE_SHORT_BREAK = 'ShortBreak';
-const STATE_LONG_BREAK = 'LongBreak'
-let WORK_TIME = config.get('workInterval') * 60 * 1000;
-let SHORT_BREAK_TIME = config.get('shortBreak') * 60 * 1000;
-let LONG_BREAK_TIME = config.get('longBreak') * 60 * 1000;
-let LONG_BREAK_AFTER = config.get('longBreakAfter');
-
-let TARGET_NUM = {
-    DEFAULT: 6,
-    MIN: 1,
-    MAX: 99,
-};
+const STATE_LONG_BREAK = 'LongBreak';
+let workTime = config.get('workInterval') * 60 * 1000;
+let shortBreakTime = config.get('shortBreak') * 60 * 1000;
+let longBreakTime = config.get('longBreak') * 60 * 1000;
+let longBreakAfter = config.get('longBreakAfter');
 let CURRENT_NUM = {
     DEFAULT: 0,
     MIN: 0,
     MAX: 99,
 };
 let isAutoStart = config.get('autoStartTimer');
-
 let pomodoroTimer = {
     state: STATE_WORK,
-    cycle: WORK_TIME,
+    cycle: workTime,
     isRunning: false,
     timerId: null,
     startTime: null,
     timeLeft: null,
     interval: {
-        targetNum: TARGET_NUM.DEFAULT,
+        targetNum: config.get('targetInterval'),
         currentNum: GetCurrentNum(),
     },
 };
@@ -128,14 +123,14 @@ function GetWorkBreakString() {
 
 function SetWork() {
     pomodoroTimer.state = STATE_WORK;
-    SetTimeToCountdown(WORK_TIME);
+    SetTimeToCountdown(workTime);
     updateTimer(pomodoroTimer.cycle);
 }
 
 function SetBreak() {
-    if (((IsLongBreak() === true) && (LONG_BREAK_TIME !== 0))) {
+    if (((IsLongBreak() === true) && (longBreakTime !== 0))) {
         SetLongBreak();
-    } else if (SHORT_BREAK_TIME !== 0) {
+    } else if (shortBreakTime !== 0) {
         SetShortBreak();
     } else {
         SetWork();
@@ -144,13 +139,13 @@ function SetBreak() {
 
 function SetShortBreak() {
     pomodoroTimer.state = STATE_SHORT_BREAK;
-    SetTimeToCountdown(SHORT_BREAK_TIME);
+    SetTimeToCountdown(shortBreakTime);
     updateTimer(pomodoroTimer.cycle);
 }
 
 function SetLongBreak() {
     pomodoroTimer.state = STATE_LONG_BREAK;
-    SetTimeToCountdown(LONG_BREAK_TIME);
+    SetTimeToCountdown(longBreakTime);
     updateTimer(pomodoroTimer.cycle);
 }
 
@@ -159,7 +154,7 @@ function IsLongBreak() {
         return false;
     }
 
-    if (pomodoroTimer.interval.currentNum % LONG_BREAK_AFTER === 0) {
+    if (pomodoroTimer.interval.currentNum % longBreakAfter === 0) {
         return true;
     } else {
         return false;
@@ -227,7 +222,7 @@ function countDown() {
         if (pomodoroTimer.timeLeft < 0) {
             clearTimeout(pomodoroTimer.timerId);
             changeTime();
-            if (isAutoStart === false) {
+            if (isAutoStart === 'false') {
                 StopPomodoroTimer();
                 return;
             } else {
@@ -238,3 +233,14 @@ function countDown() {
         countDown();
     }, 10);
 }
+
+ipcRenderer.on('preference:save', (event) => {
+    workTime = config.get('workInterval') * 60 * 1000;
+    shortBreakTime = config.get('shortBreak') * 60 * 1000;
+    longBreakTime = config.get('longBreak') * 60 * 1000;
+    longBreakAfter = config.get('longBreakAfter');
+    pomodoroTimer.interval.targetNum = config.get('targetInterval');
+    isAutoStart = config.get('autoStartTimer');
+
+    updateTimer(pomodoroTimer.cycle);
+});

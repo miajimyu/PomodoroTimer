@@ -1,9 +1,10 @@
 //@ts-check
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const electron = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = electron;
 const Config = require('electron-store');
 
 let mainWindow;
-let addWindow;
+let preferenceWindow;
 
 const config = new Config({
   defaults: {
@@ -17,14 +18,14 @@ const config = new Config({
     longBreakAfter: 3,
     targetInterval: 6,
     currentInterval: 0,
-    alwaysOnTop: true,
-    autoStartTimer: false,
+    alwaysOnTop: 'true',
+    autoStartTimer: 'false',
   },
 });
 
 function createWindow() {
   const { width, height, x, y } = config.get('bounds');
-  const alwaysOnTop = config.get('alwaysOnTop');
+  const alwaysOnTop = (config.get('alwaysOnTop') === 'true' ? true : false );
 
   mainWindow = new BrowserWindow({
     width,
@@ -55,13 +56,13 @@ app.on('ready', () => {
 });
 
 function createPreferenceWindow() {
-  addWindow = new BrowserWindow({
+  preferenceWindow = new BrowserWindow({
     width: 300,
     height: 300,
     title: 'Preference',
   });
-  addWindow.loadURL(`file://${__dirname}/preference.html`);
-  addWindow.on('close', () => addWindow = null);
+  preferenceWindow.loadURL(`file://${__dirname}/preference.html`);
+  preferenceWindow.on('close', () => preferenceWindow = null);
 }
 
 app.on('window-all-closed', function () {
@@ -76,6 +77,23 @@ app.on('activate', function () {
   }
 });
 
+ipcMain.on('preference:save', event => {
+  setAlwaysOnTop();
+  mainWindow.webContents.send('preference:save', event);
+  preferenceWindow.close();
+});
+
+function setAlwaysOnTop() {
+  let bool;
+  let isAlwaysOnTop = config.get('alwaysOnTop');
+  if (isAlwaysOnTop === 'true') {
+    bool = true;
+  } else {
+    bool = false;
+  }
+  mainWindow.setAlwaysOnTop(bool);
+}
+
 const menuTemplate = [
   {
     label: 'File',
@@ -84,7 +102,7 @@ const menuTemplate = [
         label: 'Preferense',
         accelerator: 'CmdOrCtrl+P',
         click() {
-          if (!addWindow) {
+          if (!preferenceWindow) {
             createPreferenceWindow();
           }
         }

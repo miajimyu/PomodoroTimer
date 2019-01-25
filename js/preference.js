@@ -1,6 +1,8 @@
 //@ts-check
 const Config = require('electron-store');
 const config = new Config();
+const electron = require('electron');
+const { ipcRenderer } = electron;
 
 const WORKINTERVAL = 25;
 const SHORTBREAK = 5;
@@ -66,12 +68,13 @@ autoStartTimer.addEventListener('change', () => {
 
 function OnDefaultButtonClick(){
   setDefaultPreferenceParameter();
-  setConfigAll();
+  focusSaveButton();
 }
 
 function OnSaveButtonClick() {
   setConfigAll();
   blurSaveButton();
+  ipcRenderer.send('preference:save');
 }
 
 function setDefaultPreferenceParameter() {

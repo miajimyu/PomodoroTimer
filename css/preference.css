@@ -2,6 +2,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   background: white;
+  user-select: none;
 }
 
 input, select, textarea {
@@ -24,18 +25,35 @@ input, select, textarea {
 
 .button-group{
   display: flex;
-  /* justify-content: flex-end; */
+  justify-content: space-between;
   margin-top: 4px;
 }
 
-.button {
+.default-button, .save-button {
   cursor: pointer;
-  background-color: #333;
-  color: #fff;
+  width: 40%;
   padding: 10px 15px;
-  border: none;
+  border-radius:5px;
+  box-sizing: border-box;
 }
 
-.button:hover{
+.default-button {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.default-button:hover{
+  background-color: black;
+  color: white;
+}
+
+.save-button {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.save-button:hover{
   opacity: 0.7;
 }

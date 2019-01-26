@@ -10,7 +10,7 @@ const config = new Config({
   defaults: {
     bounds: {
       width: 240,
-      height: 125,
+      height: 150,
     },
     workInterval: 25,
     shortBreak: 5,
@@ -21,12 +21,14 @@ const config = new Config({
     alwaysOnTop: 'true',
     autoStartTimer: 'false',
     notification: 'false',
+    windowResizable: 'true',
   },
 });
 
 function createWindow() {
   const { width, height, x, y } = config.get('bounds');
   const alwaysOnTop = (config.get('alwaysOnTop') === 'true' ? true : false);
+  const resizable = (config.get('windowResizable') === 'true' ? true : false);
 
   mainWindow = new BrowserWindow({
     width,
@@ -34,8 +36,8 @@ function createWindow() {
     height,
     x,
     y,
-    // resizable: false,
     alwaysOnTop,
+    resizable,
     webPreferences: { backgroundThrottling: false },
   });
 
@@ -58,7 +60,7 @@ app.on('ready', () => {
 
 function createPreferenceWindow() {
   preferenceWindow = new BrowserWindow({
-    width: 300,
+    width: 350,
     height: 350,
     alwaysOnTop: true,
     title: 'Preference',
@@ -81,6 +83,7 @@ app.on('activate', function () {
 
 ipcMain.on('preference:save', event => {
   setAlwaysOnTop();
+  setWindowResizable();
   mainWindow.webContents.send('preference:save', event);
   preferenceWindow.close();
 });
@@ -94,6 +97,16 @@ function setAlwaysOnTop() {
     bool = false;
   }
   mainWindow.setAlwaysOnTop(bool);
+}
+
+function setWindowResizable() {
+  let bool;
+  if (config.get('windowResizable') === 'true') {
+    bool = true;
+  } else {
+    bool = false;
+  }
+  mainWindow.setResizable(bool);
 }
 
 const menuTemplate = [

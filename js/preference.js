@@ -12,6 +12,7 @@ const TARGETINTERVAL = 6;
 const ALWAYSONTOP = true;
 const AUTOSTARTTIMER = false;
 const NOTIFICATION = false;
+const WINDOWRESIZABLE = true;
 
 let form1 = document.form1;
 let workInterval = document.form1.workInterval;
@@ -22,6 +23,7 @@ let targetInterval = document.form1.targetInterval;
 let alwaysOnTop = document.form1.alwaysOnTop;
 let autoStartTimer = document.form1.autoStartTimer;
 let notification = document.form1.notification;
+let windowResizable = document.form1.windowResizable;
 let saveButton = document.getElementById('save-button');
 
 function setConfigNumber(name, number) {
@@ -77,6 +79,8 @@ autoStartTimer.addEventListener('change', () => {
 });
 notification.addEventListener('change', () => {
 });
+windowResizable.addEventListener('change', () => {
+});
 
 function OnDefaultButtonClick(){
   setDefaultPreferenceParameter();
@@ -98,6 +102,7 @@ function setDefaultPreferenceParameter() {
   alwaysOnTop.value = ALWAYSONTOP;
   autoStartTimer.value = AUTOSTARTTIMER;
   notification.value = NOTIFICATION;
+  windowResizable.value = WINDOWRESIZABLE;
 }
 
 function setConfigAll() {
@@ -109,6 +114,7 @@ function setConfigAll() {
   setConfigBoolean('alwaysOnTop', alwaysOnTop.value);
   setConfigBoolean('autoStartTimer', autoStartTimer.value);
   setConfigBoolean('notification', notification.value);
+  setConfigBoolean('windowResizable', windowResizable.value);
 }
 
 (function getConfigAll() {
@@ -120,5 +126,6 @@ function setConfigAll() {
   alwaysOnTop.value = config.get('alwaysOnTop');
   autoStartTimer.value = config.get('autoStartTimer');
   notification.value = config.get('notification');
+  windowResizable.value = config.get('windowResizable');
 })();
 

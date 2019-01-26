@@ -2,3 +2,4 @@ node_modules
 .DS_Store
 app-darwin-x64
 PomodoroTimer-darwin-x64
+PomodoroTimer-win32-x64

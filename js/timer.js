@@ -107,6 +107,16 @@ function changeTime() {
     }
 }
 
+function setNotification(state) {
+    if (config.get('notification') === 'true') {
+        if (state === STATE_WORK) {
+            new Notification("Work completed");
+        } else {
+            new Notification('Break finished');
+        }
+    }
+}
+
 function AddCurrentNum() {
     if (pomodoroTimer.interval.currentNum < CURRENT_NUM.MAX) {
         pomodoroTimer.interval.currentNum++;
@@ -232,6 +242,7 @@ function countDown() {
         pomodoroTimer.timeLeft = pomodoroTimer.cycle - (Date.now() - pomodoroTimer.startTime);
         if (pomodoroTimer.timeLeft < 0) {
             clearTimeout(pomodoroTimer.timerId);
+            setNotification(pomodoroTimer.state);
             changeTime();
             if (isAutoStart === 'false') {
                 StopPomodoroTimer();

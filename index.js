@@ -20,6 +20,7 @@ const config = new Config({
     currentInterval: 0,
     alwaysOnTop: 'true',
     autoStartTimer: 'false',
+    notification: 'false',
   },
 });
 
@@ -58,7 +59,7 @@ app.on('ready', () => {
 function createPreferenceWindow() {
   preferenceWindow = new BrowserWindow({
     width: 300,
-    height: 330,
+    height: 350,
     alwaysOnTop: true,
     title: 'Preference',
   });

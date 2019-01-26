@@ -11,6 +11,7 @@ const LONGBREAKAFTER = 3;
 const TARGETINTERVAL = 6;
 const ALWAYSONTOP = true;
 const AUTOSTARTTIMER = false;
+const NOTIFICATION = false;
 
 let form1 = document.form1;
 let workInterval = document.form1.workInterval;
@@ -20,6 +21,7 @@ let longBreakAfter = document.form1.longBreakAfter;
 let targetInterval = document.form1.targetInterval;
 let alwaysOnTop = document.form1.alwaysOnTop;
 let autoStartTimer = document.form1.autoStartTimer;
+let notification = document.form1.notification;
 let saveButton = document.getElementById('save-button');
 
 function setConfigNumber(name, number) {
@@ -73,6 +75,8 @@ alwaysOnTop.addEventListener('change', () => {
 });
 autoStartTimer.addEventListener('change', () => {
 });
+notification.addEventListener('change', () => {
+});
 
 function OnDefaultButtonClick(){
   setDefaultPreferenceParameter();
@@ -93,6 +97,7 @@ function setDefaultPreferenceParameter() {
   targetInterval.value = TARGETINTERVAL;
   alwaysOnTop.value = ALWAYSONTOP;
   autoStartTimer.value = AUTOSTARTTIMER;
+  notification.value = NOTIFICATION;
 }
 
 function setConfigAll() {
@@ -103,6 +108,7 @@ function setConfigAll() {
   setConfigNumber('targetInterval', targetInterval.value);
   setConfigBoolean('alwaysOnTop', alwaysOnTop.value);
   setConfigBoolean('autoStartTimer', autoStartTimer.value);
+  setConfigBoolean('notification', notification.value);
 }
 
 (function getConfigAll() {
@@ -113,5 +119,6 @@ function setConfigAll() {
   targetInterval.value = config.get('targetInterval');
   alwaysOnTop.value = config.get('alwaysOnTop');
   autoStartTimer.value = config.get('autoStartTimer');
+  notification.value = config.get('notification');
 })();
 

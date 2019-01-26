@@ -63,9 +63,9 @@ function createPreferenceWindow() {
     width: 350,
     height: 350,
     alwaysOnTop: true,
-    title: 'Preference',
+    title: 'Preferences',
   });
-  preferenceWindow.loadURL(`file://${__dirname}/preference.html`);
+  preferenceWindow.loadURL(`file://${__dirname}/preferences.html`);
   preferenceWindow.on('close', () => preferenceWindow = null);
 }
 
@@ -114,8 +114,8 @@ const menuTemplate = [
     label: app.getName(),
     submenu: [
       {
-        label: 'Toggle Preferense',
-        accelerator: 'CmdOrCtrl+P',
+        label: 'Toggle Preferenses',
+        accelerator: 'CmdOrCtrl+,',
         click() {
           if (!preferenceWindow) {
             createPreferenceWindow();

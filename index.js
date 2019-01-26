@@ -58,7 +58,7 @@ app.on('ready', () => {
 function createPreferenceWindow() {
   preferenceWindow = new BrowserWindow({
     width: 300,
-    height: 300,
+    height: 330,
     alwaysOnTop: true,
     title: 'Preference',
   });
@@ -95,10 +95,8 @@ function setAlwaysOnTop() {
   mainWindow.setAlwaysOnTop(bool);
 }
 
-const menuTemplate = [];
-
-if (process.platform === 'darwin') {
-  menuTemplate.unshift({
+const menuTemplate = [
+  {
     label: app.getName(),
     submenu: [
       {
@@ -130,6 +128,13 @@ if (process.platform === 'darwin') {
       { type: 'separator' },
       { role: 'quit' }
     ]
+  }
+];
+
+if (process.platform === 'darwin') {
+  menuTemplate.unshift({
+    label: app.getName(),
+    submenu: []
   });
 }
 

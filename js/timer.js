@@ -172,6 +172,10 @@ window.onload = function () {
 }
 
 start.addEventListener('click', function () {
+    onClickStartStopButton();
+});
+
+function onClickStartStopButton() {
     if (pomodoroTimer.isRunning === false) {
         StartPomodoroTimer();
         countDown();
@@ -180,7 +184,7 @@ start.addEventListener('click', function () {
         SetTimeToCountdown(pomodoroTimer.timeLeft);
         clearTimeout(pomodoroTimer.timerId);
     }
-});
+}
 
 function StartPomodoroTimer() {
     pomodoroTimer.isRunning = true;
@@ -202,18 +206,26 @@ function StopPomodoroTimer() {
 }
 
 workButton.addEventListener('click', function () {
+    onClickWorkButton();
+});
+
+function onClickWorkButton() {
     if (pomodoroTimer.isRunning === true) {
         return;
     }
     SetWork();
-});
+}
 
 breakButton.addEventListener('click', function () {
+    onClickBreakButton();
+});
+
+function onClickBreakButton() {
     if (pomodoroTimer.isRunning === true) {
         return;
     }
     SetBreak();
-});
+}
 
 function countDown() {
     pomodoroTimer.timerId = setTimeout(function () {
@@ -233,6 +245,16 @@ function countDown() {
     }, 10);
 }
 
+function setPomodoroTimerCycle() {
+    if (pomodoroTimer.state === STATE_LONG_BREAK) {
+        SetTimeToCountdown(longBreakTime);
+    } else if (pomodoroTimer.state === STATE_SHORT_BREAK) {
+        SetTimeToCountdown(shortBreakTime);
+    } else {
+        SetTimeToCountdown(workTime);
+    }
+}
+
 ipcRenderer.on('preference:save', (event) => {
     workTime = config.get('workInterval') * 60 * 1000;
     shortBreakTime = config.get('shortBreak') * 60 * 1000;
@@ -246,12 +268,14 @@ ipcRenderer.on('preference:save', (event) => {
     updateTimer(pomodoroTimer.cycle);
 });
 
-function setPomodoroTimerCycle() {
-    if (pomodoroTimer.state === STATE_LONG_BREAK) {
-        SetTimeToCountdown(longBreakTime);
-    } else if (pomodoroTimer.state === STATE_SHORT_BREAK) {
-        SetTimeToCountdown(shortBreakTime);
+ipcRenderer.on('menu:start/stop', () => {
+    onClickStartStopButton();
+});
+
+ipcRenderer.on('menu:work/break', () => {
+    if (pomodoroTimer.state === STATE_WORK) {
+        onClickBreakButton();
     } else {
-        SetTimeToCountdown(workTime);
+        onClickWorkButton();
     }
-}
+});

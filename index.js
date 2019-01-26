@@ -25,7 +25,7 @@ const config = new Config({
 
 function createWindow() {
   const { width, height, x, y } = config.get('bounds');
-  const alwaysOnTop = (config.get('alwaysOnTop') === 'true' ? true : false );
+  const alwaysOnTop = (config.get('alwaysOnTop') === 'true' ? true : false);
 
   mainWindow = new BrowserWindow({
     width,
@@ -97,24 +97,43 @@ function setAlwaysOnTop() {
 
 const menuTemplate = [
   {
-    label: 'File',
+    label: 'Timer',
     submenu: [
       {
-        label: 'Preferense',
+        label: 'Toggle Preferense',
         accelerator: 'CmdOrCtrl+P',
         click() {
           if (!preferenceWindow) {
             createPreferenceWindow();
+          } else {
+            preferenceWindow.close();
           }
         }
       },
+      { type: 'separator' },
       {
-        label: 'Quit',
-        accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+        label: 'Start/Stop',
+        accelerator: 'CmdOrCtrl+S',
         click() {
-          app.quit();
+          mainWindow.webContents.send('menu:start/stop');
         }
       },
+      {
+        label: 'Work/Break',
+        accelerator: 'CmdOrCtrl+D',
+        click() {
+          mainWindow.webContents.send('menu:work/break');
+        }
+      },
+      { type: 'separator' },
+      { role: 'quit' }
+      // {
+      //   label: 'Quit',
+      //   accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+      //   click() {
+      //     app.quit();
+      //   }
+      // },
     ]
   }
 ];
@@ -130,13 +149,7 @@ if (process.env.NODE_ENV !== 'production') {
   menuTemplate.push({
     label: 'View',
     submenu: [
-      {
-        label: 'Toggle Developer Tools',
-        accelerator: process.platform === 'darwin' ? 'Command+Alt+I' : 'Ctrl+Shift+I',
-        click(item, focusedWdindow) {
-          focusedWdindow.toggleDevTools();
-        }
-      }
+      { role: 'toggledevtools' },
     ]
   });
 }

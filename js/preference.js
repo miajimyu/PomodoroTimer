@@ -44,26 +44,34 @@ form1.addEventListener('change', () => {
   focusSaveButton();
 })
 
+function checkPreferenceParamMinMax(num) {
+  if (Number(num.value) < Number(num.min)) {
+    num.value = num.min;
+  }
+
+  if (Number(num.value) > Number(num.max)) {
+    num.value = num.max;
+  }
+}
+
 workInterval.addEventListener('change', () => {
-  // setConfigNumber('workInterval', workInterval.value);
+  checkPreferenceParamMinMax(workInterval);
 });
 shortBreak.addEventListener('change', () => {
-  // setConfigNumber(shortBreak.value);
+  checkPreferenceParamMinMax(shortBreak);
 });
 longBreak.addEventListener('change', () => {
-  // setConfigNumber('longBreak', longBreak.value);
+  checkPreferenceParamMinMax(longBreak);
 });
 longBreakAfter.addEventListener('change', () => {
-  // setConfigNumber('longBreakAfter', longBreakAfter.value);
+  checkPreferenceParamMinMax(longBreakAfter);
 });
 targetInterval.addEventListener('change', () => {
-  // setConfigNumber('targetInterval', targetInterval.value);
+  checkPreferenceParamMinMax(targetInterval);
 });
 alwaysOnTop.addEventListener('change', () => {
-  // setConfigBoolean('alwaysOnTop', alwaysOnTop.value);
 });
 autoStartTimer.addEventListener('change', () => {
-  // setConfigBoolean('autoStartTimer', autoStartTimer.value);
 });
 
 function OnDefaultButtonClick(){

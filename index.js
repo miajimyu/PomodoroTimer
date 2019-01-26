@@ -59,6 +59,7 @@ function createPreferenceWindow() {
   preferenceWindow = new BrowserWindow({
     width: 300,
     height: 300,
+    alwaysOnTop: true,
     title: 'Preference',
   });
   preferenceWindow.loadURL(`file://${__dirname}/preference.html`);

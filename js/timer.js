@@ -70,7 +70,6 @@ function IsNeedRefresh() {
 
 function SetConfigDate() {
     var date = new Date();
-    // date = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1);
     config.set('date', date);
 }
 
@@ -241,6 +240,18 @@ ipcRenderer.on('preference:save', (event) => {
     longBreakAfter = config.get('longBreakAfter');
     pomodoroTimer.interval.targetNum = config.get('targetInterval');
     isAutoStart = config.get('autoStartTimer');
-
+    if (pomodoroTimer.isRunning === false) {
+        setPomodoroTimerCycle();
+    }
     updateTimer(pomodoroTimer.cycle);
 });
+
+function setPomodoroTimerCycle() {
+    if (pomodoroTimer.state === STATE_LONG_BREAK) {
+        SetTimeToCountdown(longBreakTime);
+    } else if (pomodoroTimer.state === STATE_SHORT_BREAK) {
+        SetTimeToCountdown(shortBreakTime);
+    } else {
+        SetTimeToCountdown(workTime);
+    }
+}

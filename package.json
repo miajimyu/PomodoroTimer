@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "electron": "electron .",
-    "package": "electron-packager . app --platform=darwin --arch=x64 --overwrite"
+    "package": "electron-packager . PomodoroTimer --platform=darwin --arch=x64 --overwrite"
   },
   "author": "",
   "license": "ISC",

@@ -95,9 +95,11 @@ function setAlwaysOnTop() {
   mainWindow.setAlwaysOnTop(bool);
 }
 
-const menuTemplate = [
-  {
-    label: 'Timer',
+const menuTemplate = [];
+
+if (process.platform === 'darwin') {
+  menuTemplate.unshift({
+    label: app.getName(),
     submenu: [
       {
         label: 'Toggle Preferense',
@@ -127,21 +129,7 @@ const menuTemplate = [
       },
       { type: 'separator' },
       { role: 'quit' }
-      // {
-      //   label: 'Quit',
-      //   accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
-      //   click() {
-      //     app.quit();
-      //   }
-      // },
     ]
-  }
-];
-
-
-if (process.platform === 'darwin') {
-  menuTemplate.unshift({
-    label: app.getName(),
   });
 }
 

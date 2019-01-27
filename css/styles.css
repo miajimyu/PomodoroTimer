@@ -27,11 +27,6 @@ body::-webkit-scrollbar {
     font-size: 30px;
 }
 
-.controls > div {
-    cursor: pointer;
-    float: left;
-}
-
 .controls{
     overflow: hidden;
 }
@@ -39,6 +34,7 @@ body::-webkit-scrollbar {
 .control-button{
     float: left;
     width: 33.3%;
+    cursor: pointer;
     background-color: black;
     color: white;
     text-align: center;

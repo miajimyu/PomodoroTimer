@@ -209,8 +209,8 @@ function StartPomodoroTimer() {
 function StopPomodoroTimer() {
     pomodoroTimer.isRunning = false;
     start.textContent = 'Start';
-    document.getElementById('work').style.opacity = '1.0';
-    document.getElementById('break').style.opacity = '1.0';
+    document.getElementById('work').style.opacity = null;
+    document.getElementById('break').style.opacity = null;
     document.getElementById('work').style.cursor = 'pointer';
     document.getElementById('break').style.cursor = 'pointer';
 }

@@ -1,4 +1,4 @@
-# pomodoro timer
+# PomodoroTimer
 
 ![App](image/app.png)
 
